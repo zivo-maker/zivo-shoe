@@ -1,0 +1,132 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Zivo - Footwear Store</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #f7f7f7;
+            color: #333;
+        }
+        header {
+            text-align: center;
+            padding: 20px 0;
+        }
+        h1 {
+            margin: 0;
+            color: #2c3e50;
+        }
+        .products {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .product {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 15px;
+            width: 220px;
+            text-align: center;
+            box-shadow: 0 0 5px rgba(0,0,0,0.1);
+        }
+        .product img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+        }
+        .product h3 {
+            margin: 10px 0 5px;
+            color: #2980b9;
+        }
+        .price {
+            font-size: 1.1em;
+            margin-bottom: 10px;
+            color: #27ae60;
+        }
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 0.9em;
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Welcome to Zivo</h1>
+    <p>Quality Jooti & Chappal - Shop Online</p>
+</header>
+
+<section class="products">
+
+    <!-- Product 1 -->
+    <div class="product">
+        <img src="https://via.placeholder.com/200x150?text=Jooti+1" alt="Jooti 1" />
+        <h3>Classic Leather Jooti</h3>
+        <p class="price">$25.00</p>
+
+        <!-- PayPal Buy Now Button -->
+        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+
+            <input type="hidden" name="cmd" value="_xclick" />
+            <input type="hidden" name="business" value="your-paypal-email@example.com" />
+            <input type="hidden" name="item_name" value="Classic Leather Jooti" />
+            <input type="hidden" name="amount" value="25.00" />
+            <input type="hidden" name="currency_code" value="USD" />
+
+            <input type="submit" value="Buy Now" style="background:#0070ba; color:#fff; border:none; padding:8px 15px; cursor:pointer; border-radius:4px;" />
+        </form>
+    </div>
+
+    <!-- Product 2 -->
+    <div class="product">
+        <img src="https://via.placeholder.com/200x150?text=Chappal+1" alt="Chappal 1" />
+        <h3>Comfort Chappal</h3>
+        <p class="price">$18.00</p>
+
+        <!-- PayPal Buy Now Button -->
+        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+
+            <input type="hidden" name="cmd" value="_xclick" />
+            <input type="hidden" name="business" value="your-paypal-email@example.com" />
+            <input type="hidden" name="item_name" value="Comfort Chappal" />
+            <input type="hidden" name="amount" value="18.00" />
+            <input type="hidden" name="currency_code" value="USD" />
+
+            <input type="submit" value="Buy Now" style="background:#0070ba; color:#fff; border:none; padding:8px 15px; cursor:pointer; border-radius:4px;" />
+        </form>
+    </div>
+
+    <!-- Product 3 -->
+    <div class="product">
+        <img src="https://via.placeholder.com/200x150?text=Jooti+2" alt="Jooti 2" />
+        <h3>Modern Style Jooti</h3>
+        <p class="price">$30.00</p>
+
+        <!-- PayPal Buy Now Button -->
+        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+
+            <input type="hidden" name="cmd" value="_xclick" />
+            <input type="hidden" name="business" value="your-paypal-email@example.com" />
+            <input type="hidden" name="item_name" value="Modern Style Jooti" />
+            <input type="hidden" name="amount" value="30.00" />
+            <input type="hidden" name="currency_code" value="USD" />
+
+            <input type="submit" value="Buy Now" style="background:#0070ba; color:#fff; border:none; padding:8px 15px; cursor:pointer; border-radius:4px;" />
+        </form>
+    </div>
+
+</section>
+
+<footer>
+    &copy; 2025 Zivo. All rights reserved.
+</footer>
+
+</body>
+</html>
