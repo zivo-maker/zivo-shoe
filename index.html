@@ -1,132 +1,463 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Zivo - Footwear Store</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            background: #f7f7f7;
-            color: #333;
-        }
-        header {
-            text-align: center;
-            padding: 20px 0;
-        }
-        h1 {
-            margin: 0;
-            color: #2c3e50;
-        }
-        .products {
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-        .product {
-            background: white;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            padding: 15px;
-            width: 220px;
-            text-align: center;
-            box-shadow: 0 0 5px rgba(0,0,0,0.1);
-        }
-        .product img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 4px;
-        }
-        .product h3 {
-            margin: 10px 0 5px;
-            color: #2980b9;
-        }
-        .price {
-            font-size: 1.1em;
-            margin-bottom: 10px;
-            color: #27ae60;
-        }
-        footer {
-            text-align: center;
-            margin-top: 40px;
-            font-size: 0.9em;
-            color: #999;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Zivo — Footwear Store</title>
+  <meta name="description" content="Zivo — Premium jooti & chappal. Shop online." />
+  <link rel="preconnect" href="https://www.paypal.com"/>
+  <style>
+    :root{
+      --bg:#0f1115;--card:#151923;--muted:#8892a6;--text:#e8ecf1;--brand:#f5c451;--brand-2:#ffe08a;--ok:#27ae60;--danger:#e74c3c;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%;display:block}
+    .container{max-width:1100px;margin:0 auto;padding:16px}
+    header{position:sticky;top:0;z-index:10;background:linear-gradient(180deg, rgba(15,17,21,.95), rgba(15,17,21,.8));backdrop-filter: blur(6px);border-bottom:1px solid #222}
+    .nav{display:flex;align-items:center;gap:16px;justify-content:space-between;padding:10px 0}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.5px}
+    .logo{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,var(--brand),var(--brand-2));display:flex;align-items:center;justify-content:center;color:#111;font-weight:900}
+    .nav-right{display:flex;gap:10px;align-items:center}
+    .btn{background:#1e2430;border:1px solid #2a3140;color:var(--text);padding:10px 14px;border-radius:12px;cursor:pointer;font-weight:600;transition:all .2s}
+    .btn:hover{transform:translateY(-1px);border-color:#3a4457}
+    .btn.brand{background:linear-gradient(135deg,var(--brand),var(--brand-2));color:#1b1200;border:none}
+    .icon{font-variation-settings:'wght' 700}
+    .pill{background:#1b1f2a;border:1px solid #2a3140;border-radius:12px;padding:8px 12px;color:var(--muted)}
+
+    /* Sections */
+    section{padding:28px 0}
+    .hero{display:grid;grid-template-columns:1.1fr .9fr;gap:22px;align-items:center}
+    .hero-card{background:linear-gradient(180deg,#171b25,#131722);border:1px solid #232a38;border-radius:20px;padding:24px}
+    .hero h1{font-size:42px;line-height:1.1;margin:0 0 10px}
+    .hero p{color:var(--muted);margin:0 0 18px}
+    .hero img{border-radius:16px}
+
+    .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+    @media (max-width:980px){.grid{grid-template-columns:repeat(3,1fr)}.hero{grid-template-columns:1fr}}
+    @media (max-width:720px){.grid{grid-template-columns:repeat(2,1fr)}.hero h1{font-size:32px}}
+    @media (max-width:520px){.grid{grid-template-columns:1fr}}
+
+    .card{background:var(--card);border:1px solid #222a38;border-radius:16px;overflow:hidden}
+    .card-body{padding:14px}
+    .price{color:var(--brand)}
+    .muted{color:var(--muted)}
+    .tag{display:inline-block;background:#202534;border:1px solid #2a3140;color:var(--muted);padding:4px 8px;border-radius:999px;font-size:12px}
+
+    .toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
+    .search{flex:1;min-width:200px;display:flex}
+    .search input{flex:1;background:#131722;border:1px solid #262e3e;color:var(--text);padding:10px 12px;border-radius:12px 0 0 12px}
+    .search button{border-radius:0 12px 12px 0}
+
+    .section-title{display:flex;align-items:center;justify-content:space-between;margin:6px 0 18px}
+
+    .footer{border-top:1px solid #222;margin-top:20px;padding:18px 0;color:#a0a7b6}
+
+    .hidden{display:none}
+    .flex{display:flex;gap:10px;align-items:center}
+
+    /* Product page & cart */
+    .product-detail{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+    @media (max-width:800px){.product-detail{grid-template-columns:1fr}}
+    .qty{display:inline-flex;border:1px solid #2a3140;border-radius:12px;overflow:hidden}
+    .qty button{background:#1c2230;padding:8px 12px;border:none;color:var(--text);cursor:pointer}
+    .qty input{width:52px;text-align:center;background:#0f141f;color:var(--text);border:none}
+    table{width:100%;border-collapse:collapse}
+    th,td{padding:10px;border-bottom:1px solid #222b3a;text-align:left}
+    tfoot td{font-weight:700}
+
+    .notice{background:#121827;border:1px dashed #2a3140;padding:12px;border-radius:14px;color:var(--muted)}
+
+    /* Toast */
+    .toast{position:fixed;right:16px;bottom:16px;background:#121827;border:1px solid #2a3140;padding:12px 14px;border-radius:14px;opacity:0;transform:translateY(12px);transition:.25s}
+    .toast.show{opacity:1;transform:translateY(0)}
+  </style>
 </head>
 <body>
-
-<header>
-    <h1>Welcome to Zivo</h1>
-    <p>Quality Jooti & Chappal - Shop Online</p>
-</header>
-
-<section class="products">
-
-    <!-- Product 1 -->
-    <div class="product">
-        <img src="https://via.placeholder.com/200x150?text=Jooti+1" alt="Jooti 1" />
-        <h3>Classic Leather Jooti</h3>
-        <p class="price">$25.00</p>
-
-        <!-- PayPal Buy Now Button -->
-        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-
-            <input type="hidden" name="cmd" value="_xclick" />
-            <input type="hidden" name="business" value="your-paypal-email@example.com" />
-            <input type="hidden" name="item_name" value="Classic Leather Jooti" />
-            <input type="hidden" name="amount" value="25.00" />
-            <input type="hidden" name="currency_code" value="USD" />
-
-            <input type="submit" value="Buy Now" style="background:#0070ba; color:#fff; border:none; padding:8px 15px; cursor:pointer; border-radius:4px;" />
-        </form>
+  <header>
+    <div class="container nav">
+      <div class="brand" onclick="navigate('home')" style="cursor:pointer">
+        <div class="logo">Z</div>
+        <div>
+          <div style="font-size:14px;color:var(--muted);line-height:1">Premium Footwear</div>
+          <div style="font-size:18px;letter-spacing:.6px">Zivo</div>
+        </div>
+      </div>
+      <div class="nav-right">
+        <button class="btn" onclick="navigate('shop')">Shop</button>
+        <button class="btn" onclick="navigate('about')">About</button>
+        <button class="btn" onclick="navigate('contact')">Contact</button>
+        <button class="btn brand" onclick="navigate('cart')">🛒 Cart <span id="cart-count" class="pill" style="margin-left:8px">0</span></button>
+      </div>
     </div>
+  </header>
 
-    <!-- Product 2 -->
-    <div class="product">
-        <img src="https://via.placeholder.com/200x150?text=Chappal+1" alt="Chappal 1" />
-        <h3>Comfort Chappal</h3>
-        <p class="price">$18.00</p>
+  <main class="container">
+    <!-- HOME -->
+    <section id="home">
+      <div class="hero">
+        <div class="hero-card">
+          <span class="tag">New Season • Flat 15% Off</span>
+          <h1>Crafted Jooti & Chappal for Daily Comfort</h1>
+          <p>Hand‑finished leather, breathable lining, and styles that go from desi wear to street casual. Trusted quality from Zivo.</p>
+          <div class="flex">
+            <button class="btn brand" onclick="navigate('shop')">Shop Now</button>
+            <button class="btn" onclick="navigate('about')">Why Zivo?</button>
+          </div>
+        </div>
+        <img src="https://images.unsplash.com/photo-1549298916-b41d501d3772?q=80&w=1400&auto=format&fit=crop" alt="Zivo hero"/>
+      </div>
 
-        <!-- PayPal Buy Now Button -->
-        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+      <div style="height:12px"></div>
+      <div class="section-title">
+        <h2>Featured</h2>
+        <a href="#shop" onclick="navigate('shop')" class="muted">View all →</a>
+      </div>
+      <div class="grid" id="featured-grid"></div>
+    </section>
 
-            <input type="hidden" name="cmd" value="_xclick" />
-            <input type="hidden" name="business" value="your-paypal-email@example.com" />
-            <input type="hidden" name="item_name" value="Comfort Chappal" />
-            <input type="hidden" name="amount" value="18.00" />
-            <input type="hidden" name="currency_code" value="USD" />
+    <!-- SHOP -->
+    <section id="shop" class="hidden">
+      <div class="section-title"><h2>Shop</h2></div>
+      <div class="toolbar">
+        <div class="search">
+          <input id="searchInput" placeholder="Search products…" oninput="renderProducts()"/>
+          <button class="btn" onclick="renderProducts()">Search</button>
+        </div>
+        <select id="catFilter" class="btn" onchange="renderProducts()">
+          <option value="all">All Categories</option>
+          <option value="jooti">Jooti</option>
+          <option value="chappal">Chappal</option>
+          <option value="sandal">Sandal</option>
+        </select>
+        <select id="sortBy" class="btn" onchange="renderProducts()">
+          <option value="popular">Sort: Popular</option>
+          <option value="low">Price: Low to High</option>
+          <option value="high">Price: High to Low</option>
+          <option value="new">Newest</option>
+        </select>
+      </div>
+      <div class="grid" id="product-grid"></div>
+    </section>
 
-            <input type="submit" value="Buy Now" style="background:#0070ba; color:#fff; border:none; padding:8px 15px; cursor:pointer; border-radius:4px;" />
-        </form>
+    <!-- PRODUCT DETAIL -->
+    <section id="product" class="hidden">
+      <div id="product-detail" class="product-detail"></div>
+    </section>
+
+    <!-- CART -->
+    <section id="cart" class="hidden">
+      <h2>Shopping Cart</h2>
+      <div id="cartView"></div>
+      <div class="flex" style="justify-content:flex-end;margin-top:14px">
+        <button class="btn" onclick="navigate('shop')">Continue Shopping</button>
+        <button class="btn brand" onclick="navigate('checkout')">Proceed to Checkout</button>
+      </div>
+    </section>
+
+    <!-- CHECKOUT -->
+    <section id="checkout" class="hidden">
+      <h2>Checkout</h2>
+      <div class="notice" style="margin-bottom:12px">Fill your details and choose a payment method. For demo, PayPal Sandbox is enabled. Replace client-id with your live PayPal Client ID when ready.</div>
+      <div class="grid" style="grid-template-columns:1.2fr .8fr">
+        <div>
+          <div class="card" style="padding:14px">
+            <h3>Shipping Details</h3>
+            <div class="grid" style="grid-template-columns:1fr 1fr">
+              <label>Full Name<input id="cName" class="btn" style="width:100%;margin-top:6px" placeholder="Customer name"/></label>
+              <label>Phone<input id="cPhone" class="btn" style="width:100%;margin-top:6px" placeholder="03xx xxxxxxx"/></label>
+              <label style="grid-column:1/-1">Address<input id="cAddress" class="btn" style="width:100%;margin-top:6px" placeholder="Street, City, Country"/></label>
+              <label>City<input id="cCity" class="btn" style="width:100%;margin-top:6px" placeholder="City"/></label>
+              <label>Postal Code<input id="cZip" class="btn" style="width:100%;margin-top:6px" placeholder="ZIP"/></label>
+            </div>
+          </div>
+          <div style="height:12px"></div>
+          <div class="card" style="padding:14px">
+            <h3>Payment</h3>
+            <div id="paypal-container" style="margin:10px 0"></div>
+            <div class="notice" style="margin-top:8px">
+              <b>JazzCash:</b> Requires a server/API. Button below is a placeholder to collect order & forward to WhatsApp or your backend.
+              <div class="flex" style="margin-top:10px">
+                <button class="btn" onclick="placeJazzCashOrder()">Pay with JazzCash (Manual)</button>
+                <button class="btn" onclick="alert('Cash on Delivery selected. We will confirm on phone.')">Cash on Delivery</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="card" style="padding:14px">
+            <h3>Order Summary</h3>
+            <div id="summary"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="hidden">
+      <div class="grid" style="grid-template-columns:1.1fr .9fr">
+        <div class="card" style="padding:16px">
+          <h2>About Zivo</h2>
+          <p class="muted">Zivo is a Pakistan‑born footwear brand crafting jooti, chappal and sandals with durable materials, cushioned footbeds, and clean, wearable style.</p>
+          <ul class="muted">
+            <li>Hand‑finished leather & strong stitching</li>
+            <li>Sizes 39–46 • Free size exchange</li>
+            <li>7‑day return policy</li>
+          </ul>
+        </div>
+        <img class="card" src="https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?q=80&w=1200&auto=format&fit=crop" alt="About Zivo"/>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="hidden">
+      <div class="card" style="padding:16px">
+        <h2>Contact</h2>
+        <p class="muted">Have a question or bulk order? Send us a message.</p>
+        <div class="grid" style="grid-template-columns:1fr 1fr">
+          <label>Your Name<input id="qName" class="btn" style="width:100%;margin-top:6px"/></label>
+          <label>Email / Phone<input id="qContact" class="btn" style="width:100%;margin-top:6px"/></label>
+          <label style="grid-column:1/-1">Message<textarea id="qMsg" class="btn" style="width:100%;margin-top:6px;height:120px"></textarea></label>
+        </div>
+        <div class="flex" style="justify-content:flex-end">
+          <button class="btn brand" onclick="sendInquiry()">Send Message</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer container">
+    <div class="flex" style="justify-content:space-between;align-items:center;flex-wrap:wrap">
+      <div>© <span id="year"></span> Zivo. All rights reserved.</div>
+      <div class="muted">WhatsApp: +92‑3013556588 • Instagram: @zivo.official</div>
     </div>
+  </footer>
 
-    <!-- Product 3 -->
-    <div class="product">
-        <img src="https://via.placeholder.com/200x150?text=Jooti+2" alt="Jooti 2" />
-        <h3>Modern Style Jooti</h3>
-        <p class="price">$30.00</p>
+  <div id="toast" class="toast">Added to cart</div>
 
-        <!-- PayPal Buy Now Button -->
-        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+  <!-- PayPal JS SDK (Sandbox). Replace client-id=sb with your LIVE client id later. -->
+  <script src="https://www.paypal.com/sdk/js?client-id=sb&currency=USD"></script>
 
-            <input type="hidden" name="cmd" value="_xclick" />
-            <input type="hidden" name="business" value="your-paypal-email@example.com" />
-            <input type="hidden" name="item_name" value="Modern Style Jooti" />
-            <input type="hidden" name="amount" value="30.00" />
-            <input type="hidden" name="currency_code" value="USD" />
+  <script>
+    // ===== Data =====
+    const PRODUCTS=[
+      {id:'p1',name:'Classic Leather Jooti',cat:'jooti',price:25,old:32,stars:4.7, img:'https://images.unsplash.com/photo-1582582621959-48d8f83b4c2f?q=80&w=1400&auto=format&fit=crop', desc:'Hand‑stitched upper, soft lining, durable sole.'},
+      {id:'p2',name:'Comfort Chappal',cat:'chappal',price:18,old:24,stars:4.5, img:'https://images.unsplash.com/photo-1552346154-21d32810aba3?q=80&w=1400&auto=format&fit=crop', desc:'Everyday slip‑on comfort with cushioned footbed.'},
+      {id:'p3',name:'Modern Style Jooti',cat:'jooti',price:30,old:36,stars:4.8, img:'https://images.unsplash.com/photo-1543508282-6319a3e2621f?q=80&w=1400&auto=format&fit=crop', desc:'Streamlined silhouette for formal & casual wear.'},
+      {id:'p4',name:'Street Sandal',cat:'sandal',price:22,old:28,stars:4.4, img:'https://images.unsplash.com/photo-1539185441755-769473a23570?q=80&w=1400&auto=format&fit=crop', desc:'Breathable straps, anti‑slip sole for all‑day use.'},
+      {id:'p5',name:'Heritage Khussa',cat:'jooti',price:28,old:34,stars:4.6, img:'https://images.unsplash.com/photo-1520975922284-9ec045edb1dc?q=80&w=1400&auto=format&fit=crop', desc:'Traditional pattern with modern comfort insole.'},
+      {id:'p6',name:'Dual Strap Chappal',cat:'chappal',price:20,old:26,stars:4.3, img:'https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=1400&auto=format&fit=crop', desc:'Adjustable straps, lightweight EVA midsole.'},
+    ];
+    
+    // ===== Utilities =====
+    const $=sel=>document.querySelector(sel);
+    const $$=sel=>document.querySelectorAll(sel);
+    const money=n=>`$${n.toFixed(2)}`;
+    const state={cart: JSON.parse(localStorage.getItem('zivo_cart')||'[]')};
+    const saveCart=()=>localStorage.setItem('zivo_cart',JSON.stringify(state.cart));
+    const toast=(msg)=>{const t=$('#toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1500)}
 
-            <input type="submit" value="Buy Now" style="background:#0070ba; color:#fff; border:none; padding:8px 15px; cursor:pointer; border-radius:4px;" />
-        </form>
-    </div>
+    // ===== Routing =====
+    function navigate(view, id){
+      window.location.hash = id? `#${view}/${id}` : `#${view}`;
+    }
+    function onHash(){
+      const hash=window.location.hash.replace('#','')||'home';
+      const [view,id]=hash.split('/');
+      ['home','shop','product','cart','checkout','about','contact'].forEach(v=>$('#'+v).classList.add('hidden'));
+      $('#'+view)?.classList.remove('hidden');
+      if(view==='shop') renderProducts();
+      if(view==='product'&&id) renderProduct(id);
+      if(view==='cart') renderCart();
+      if(view==='checkout'){renderSummary();setupPayPal()}
+    }
+    window.addEventListener('hashchange',onHash);
 
-</section>
+    // ===== Render Home / Featured =====
+    function renderFeatured(){
+      const wrap=$('#featured-grid');
+      const items=[...PRODUCTS].slice(0,4).map(cardHTML).join('');
+      wrap.innerHTML=items;
+    }
 
-<footer>
-    &copy; 2025 Zivo. All rights reserved.
-</footer>
+    // ===== Product Cards =====
+    function cardHTML(p){
+      return `<div class="card">
+        <img src="${p.img}" alt="${p.name}" loading="lazy"/>
+        <div class="card-body">
+          <div class="flex" style="justify-content:space-between">
+            <h3 style="margin:0;font-size:18px">${p.name}</h3>
+            <span class="tag">${p.cat}</span>
+          </div>
+          <div class="flex" style="justify-content:space-between">
+            <div>
+              <b class="price">${money(p.price)}</b> <span class="muted" style="text-decoration:line-through">${money(p.old)}</span>
+            </div>
+            <div class="muted">⭐ ${p.stars}</div>
+          </div>
+          <div class="flex" style="justify-content:space-between;margin-top:8px">
+            <button class="btn" onclick="navigate('product','${p.id}')">View</button>
+            <button class="btn brand" onclick="addToCart('${p.id}')">Add to Cart</button>
+          </div>
+        </div>
+      </div>`
+    }
 
+    // ===== Shop listing =====
+    function renderProducts(){
+      const q=$('#searchInput').value?.toLowerCase()||'';
+      const cat=$('#catFilter').value;
+      const sort=$('#sortBy').value;
+      let list=PRODUCTS.filter(p=> (cat==='all'||p.cat===cat) && (p.name.toLowerCase().includes(q) || p.desc.toLowerCase().includes(q)) );
+      if(sort==='low') list.sort((a,b)=>a.price-b.price);
+      if(sort==='high') list.sort((a,b)=>b.price-a.price);
+      if(sort==='new') list=list.reverse();
+      const html=list.map(cardHTML).join('');
+      $('#product-grid').innerHTML=html || '<div class="notice">No products found.</div>';
+    }
+
+    // ===== Product detail =====
+    function renderProduct(id){
+      const p=PRODUCTS.find(x=>x.id===id);
+      if(!p){$('#product-detail').innerHTML='<div class="notice">Product not found.</div>';return}
+      $('#product-detail').innerHTML=`
+        <img class="card" src="${p.img}" alt="${p.name}">
+        <div class="card" style="padding:16px">
+          <h2 style="margin-top:0">${p.name}</h2>
+          <p class="muted">${p.desc}</p>
+          <div class="flex" style="justify-content:space-between">
+            <div>
+              <b class="price" style="font-size:22px">${money(p.price)}</b>
+              <span class="muted" style="text-decoration:line-through">${money(p.old)}</span>
+            </div>
+            <div class="muted">⭐ ${p.stars}</div>
+          </div>
+          <div style="margin:12px 0">
+            <label class="muted">Size</label>
+            <div class="flex">
+              ${[39,40,41,42,43,44,45,46].map(s=>`<button class="btn" onclick="selectSize(${s})" data-size="${s}">${s}</button>`).join('')}
+            </div>
+          </div>
+          <div class="flex">
+            <div class="qty">
+              <button onclick="chgQty(-1)">-</button>
+              <input id="qty" value="1" />
+              <button onclick="chgQty(1)">+</button>
+            </div>
+            <button class="btn brand" onclick="addToCart('${p.id}')">Add to Cart</button>
+            <button class="btn" onclick="buyNow('${p.id}')">Buy Now</button>
+          </div>
+        </div>`
+    }
+    function chgQty(d){const el=$('#qty');let v=parseInt(el.value||1)+d;el.value=Math.max(1,v)}
+    function selectSize(s){
+      $$('#product [data-size]').forEach(b=>b.classList.remove('brand'));
+      const btn=[...$$('#product [data-size]')].find(b=>b.dataset.size==s); btn?.classList.add('brand');
+      sessionStorage.setItem('zivo_size',s);
+    }
+
+    // ===== Cart =====
+    function addToCart(id){
+      const size=sessionStorage.getItem('zivo_size')||'41';
+      const qty=parseInt($('#qty')?.value||1);
+      const item=state.cart.find(x=>x.id===id && x.size===size);
+      if(item){item.qty+=qty}else{state.cart.push({id,qty,size})}
+      saveCart();updateCartCount();toast('Added to cart');
+    }
+    function removeFromCart(i){state.cart.splice(i,1);saveCart();renderCart();updateCartCount()}
+    function updateCartCount(){const c=state.cart.reduce((a,b)=>a+b.qty,0);$('#cart-count').textContent=c}
+    function renderCart(){
+      if(!state.cart.length){$('#cartView').innerHTML='<div class="notice">Your cart is empty.</div>';return}
+      let rows=''; let sum=0;
+      state.cart.forEach((it,idx)=>{
+        const p=PRODUCTS.find(x=>x.id===it.id); const line=p.price*it.qty; sum+=line;
+        rows+=`<tr>
+          <td style="width:64px"><img src="${p.img}" style="width:64px;height:64px;object-fit:cover;border-radius:10px"></td>
+          <td>${p.name}<div class="muted">Size ${it.size}</div></td>
+          <td>${it.qty}</td>
+          <td>${money(p.price)}</td>
+          <td>${money(line)}</td>
+          <td><button class="btn" onclick="removeFromCart(${idx})">Remove</button></td>
+        </tr>`
+      })
+      $('#cartView').innerHTML=`<div class="card" style="padding:12px;overflow:auto">
+        <table>
+          <thead><tr><th></th><th>Item</th><th>Qty</th><th>Price</th><th>Subtotal</th><th></th></tr></thead>
+          <tbody>${rows}</tbody>
+          <tfoot><tr><td colspan="4" style="text-align:right">Total</td><td>${money(sum)}</td><td></td></tr></tfoot>
+        </table>
+      </div>`
+    }
+
+    // ===== Checkout Summary =====
+    function getTotals(){
+      let sub=0; state.cart.forEach(it=>{const p=PRODUCTS.find(x=>x.id===it.id); sub+=p.price*it.qty});
+      const ship=sub>60?0:5; const grand=sub+ship; return {sub,ship,grand}
+    }
+    function renderSummary(){
+      if(!state.cart.length){$('#summary').innerHTML='<div class="notice">Your cart is empty.</div>';return}
+      const t=getTotals();
+      const lines=state.cart.map(it=>{const p=PRODUCTS.find(x=>x.id===it.id);return `<div class="flex" style="justify-content:space-between"><span>${p.name} × ${it.qty}</span><b>${money(p.price*it.qty)}</b></div>`}).join('');
+      $('#summary').innerHTML=`
+        ${lines}
+        <hr style="border:0;border-top:1px solid #222a38;margin:10px 0"/>
+        <div class="flex" style="justify-content:space-between"><span class="muted">Subtotal</span><span>${money(t.sub)}</span></div>
+        <div class="flex" style="justify-content:space-between"><span class="muted">Shipping</span><span>${t.ship?money(t.ship):'Free'}</span></div>
+        <div class="flex" style="justify-content:space-between;font-size:18px"><span>Total</span><b>${money(t.grand)}</b></div>`
+    }
+
+    // ===== Buy Now shortcut =====
+    function buyNow(id){state.cart=[{id,qty:1,size:sessionStorage.getItem('zivo_size')||'41'}]; saveCart(); updateCartCount(); navigate('checkout')}
+
+    // ===== PayPal Integration (Sandbox) =====
+    function setupPayPal(){
+      const container=document.getElementById('paypal-container');
+      container.innerHTML='';
+      if(!state.cart.length){container.innerHTML='<div class="notice">Add items to cart to pay via PayPal.</div>';return}
+      const total=getTotals().grand;
+      if(window.paypal){
+        paypal.Buttons({
+          style:{layout:'horizontal',shape:'rect',label:'paypal'},
+          createOrder: (data, actions)=>{
+            return actions.order.create({purchase_units:[{amount:{value: total.toFixed(2)}}]});
+          },
+          onApprove: async (data, actions)=>{
+            const details= await actions.order.capture();
+            alert('Payment successful! Order ID: '+details.id);
+            state.cart=[]; saveCart(); updateCartCount(); navigate('home');
+          },
+          onError: (err)=>{console.error(err); alert('PayPal error. Please try again.')}
+        }).render('#paypal-container');
+      }
+    }
+
+    // ===== JazzCash placeholder =====
+    function placeJazzCashOrder(){
+      if(!state.cart.length){alert('Cart is empty'); return}
+      const order={
+        items: state.cart.map(it=>({ id:it.id, qty:it.qty, size:it.size })),
+        customer: { name:$('#cName').value, phone:$('#cPhone').value, address:$('#cAddress').value, city:$('#cCity').value, zip:$('#cZip').value },
+        totals: getTotals()
+      };
+      // In production, POST this to your backend which calls JazzCash API
+      // fetch('/api/jazzcash/initiate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(order)})
+      //   .then(r=>r.json()).then(x=>window.location = x.redirectUrl);
+
+      const msg=encodeURIComponent('New JazzCash order for Zivo:%0A'+JSON.stringify(order,null,2));
+      window.open('https://wa.me/923111039211?text='+msg,'_blank');
+    }
+
+    // ===== Contact form (dummy) =====
+    function sendInquiry(){
+      const name=$('#qName').value||'Customer';
+      const msg=encodeURIComponent(`Hi, I am ${name}. ${$('#qMsg').value||'Interested in your products.'}`);
+      window.open('https://wa.me/923111039211?text='+msg,'_blank');
+    }
+
+    // Init
+    $('#year').textContent=new Date().getFullYear();
+    renderFeatured(); onHash(); updateCartCount();
+  </script>
 </body>
 </html>
